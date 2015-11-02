@@ -9,15 +9,16 @@ public class MenuRayCasting : MonoBehaviour {
 	// Public variables that are customizable in the Inspector
 	public float rayRadius = 0.025f;
 	public float rayMaxLength = 100.0f;
-	
+	public float maxDistance = 20.0f; //Max distance from a category planet. Will have to tweak based on our scale.
 	// State variables and data required among the functions of the class
-	bool grabbing = false;
+	bool moving = false;
 	bool manipulating = false;
 	bool inMenu = false;
 	float objectDistance = 0.0f;
 	GameObject raycastObject = null;
 	GameObject menu = null;
 	GameObject originalObject= null;
+	Transform selectedPlanet = null;
 	Transform grabbedObject = null;
 	Transform menuObject = null;
 	Renderer menuRenderer;
@@ -27,7 +28,7 @@ public class MenuRayCasting : MonoBehaviour {
 		menu = GameObject.Find ("Menu");
 		menuObject = menu.transform;
 		// Get reference to empty GameObject located under the Main Camera.
-		// This object serves as the grabbing point relative to the grabbed object.
+		// This object serves as the moving point relative to the grabbed object.
 		grabbedObject = GameObject.Find("Grabbed Object").transform;
 	
 		// Color the ray GameObject blue by default
@@ -35,26 +36,28 @@ public class MenuRayCasting : MonoBehaviour {
 	
 	}
 	/*So our states are: 
-	 * not grabbing, not in menu: normal raycasting and object selection
+	 * not moving, not in menu: normal raycasting and object selection
 	 * in menu: raycasting to select a menu object. We need to remember the selected object
-	 * grabbing: 
+	 * moving: 
 	 **/
 	// Update is called once per frame
 	void Update () {
 	
 		// If an object is not being grabbed
-		if(!grabbing) {
+		if(!moving) {
 			// Update the ray based on the gaze direction
 			UpdateRay();
-			// Then check to see if the user is grabbing it with a touchpad press
-			CheckGrab();
+			// Then check to see if the user is selecting anything
+			// (either an object with a "Category" tag or
+			// a "File" tag.
+			CheckSelect(); //Original method was check grb.
 		}
 		// If an object is being grabbed
 		else {
-			// Manipulate the object and ray based on the user's input
-			ManipulateObject();
-			// Then check if the user is releasing the object with a back button press
-			CheckRelease();
+			// Move the user towards the chosen category
+			MoveUser(); //Original method was manipulateObject()
+			// Check to see if it is time to stop the user from moving
+			CheckStop(); //Original method was checkrelease
 		}
 	
 	}
@@ -152,7 +155,7 @@ public class MenuRayCasting : MonoBehaviour {
 		}
 	}
 	
-	// Check to see if the user is grabbing the object with a touchpad press
+	// Check to see if the user is moving the object with a touchpad press
 	void CheckGrab () {
 		
 		// If the touchpad is being pressed and an object is being intersected and it is manipulable
@@ -166,11 +169,11 @@ public class MenuRayCasting : MonoBehaviour {
 			}
 			originalObject = raycastObject;
 //
-//			// Change our state to grabbing
+//			// Change our state to moving
 //			
 		}  else if(Input.GetMouseButton(0) && raycastObject != null && inMenu) {
 			if (raycastObject.tag == "Grab") {
-				grabbing = true;
+				moving = true;
 						
 				// Move the object under the empty grabbed object within the hierarchy to keep relative placement
 				originalObject.transform.parent = grabbedObject;
@@ -259,39 +262,18 @@ public class MenuRayCasting : MonoBehaviour {
 	}
 	
 	// Check if the user is releasing the object with a back button press
-	void CheckRelease () {
-		
-		// Back button is pressed and there is an object being manipulated
-		if(Input.GetMouseButton(1) && raycastObject != null) {
+	void CheckStop () {
+		Vector3 headPosition = GameObject.Find("Main Camera").transform.position;
+		float planetDistance = Vector3.Distance (headPosition, selectedPlanet.position);
+
+		if(planetDistance <= maxDistance) { 
 			
-			// Change our state back to not grabbing
-			grabbing = false;
-			
-			// Put the object on the top level of the scene hierarchy
-			originalObject.transform.parent = null;
-			
-			// Allow the physics engine to control the object
-			originalObject.GetComponent<Rigidbody>().isKinematic = false;
-			
-			// Keep track that we're no longer grabbing an object
-			originalObject = null;
-			
-			// Color the ray green since we're still pointing at a manipulable object.
-			// This avoids color blinking.
-			GameObject.Find("Ray").GetComponent<Renderer>().material.color = Color.green;
+			// Change our state back to not moving
+			moving = false;
+			selectedPlanet.position = null;
+
+			//Here goes code to display the video previews/thumbnails in that category
+
 		}
 	}
-//
-//	void toggleMenuVisibility(bool visibile) {
-//		//GameObject.Find ("MenuTest").GetComponent<Renderer> ();
-//
-//		Renderer menuRenderer = menuObject.GetComponent<Renderer> ();
-//		menuRenderer.enabled = false;
-//		//menuRenderer.enabled = visibile;
-//		Renderer[] childRenderers = menuObject.GetComponentsInChildren<Renderer> ();
-//		foreach (Renderer childRenderer in childRenderers) {
-//			childRenderer.enabled = false;
-//		}
-//
-//	}
 }
