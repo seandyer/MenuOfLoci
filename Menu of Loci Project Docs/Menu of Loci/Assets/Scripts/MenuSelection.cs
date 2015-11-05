@@ -8,7 +8,7 @@ public class MenuSelection : MonoBehaviour {
 	
 	private InputDetector inputDetector;
 	private bool moving = false;
-	private float speed = 3.0f;
+	private float speed = 8.0f;
 	private GameObject target;
 	// Use this for initialization
 	void Start () {
