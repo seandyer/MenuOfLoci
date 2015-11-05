@@ -7,21 +7,49 @@ public class MenuSelection : MonoBehaviour {
 	public GameObject scriptObject; //Add the singleton script game object to this slot in the Inspector
 	
 	private InputDetector inputDetector;
-	
+	private bool moving = false;
+	private float speed = 3.0f;
+	private GameObject target;
 	// Use this for initialization
 	void Start () {
 		if (scriptObject != null) {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 		}
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (inputDetector.touchpadIsTapped()) {
-			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = raycastForObject ().name;
+			target = raycastForObject ();
+			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = target.name;
+			if (target != null && target.tag.Equals("Category")) {
+				moving = true;	
+			}
+		}
+		if (moving) {
+			checkForMove (target);	
 		}
 	}
-	
+	private void checkForMove(GameObject destination) {
+		GameObject user = GameObject.Find ("Main Camera");
+		var heading = destination.transform.position - user.transform.position;
+		var distance = heading.magnitude;
+		if (distance <= 1.0f) {
+			moving = false;
+		} else {
+			heading = heading.normalized;
+			float move = speed * Time.deltaTime;
+			if (move > distance) {
+				move = distance;
+			}
+			user.transform.Translate (heading * move);
+
+
+		}
+
+
+	}
 	private GameObject raycastForObject() {
 		RaycastHit hitInfo;
 		
