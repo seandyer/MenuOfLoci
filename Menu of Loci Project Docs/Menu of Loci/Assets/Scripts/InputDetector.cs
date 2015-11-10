@@ -6,6 +6,7 @@ public class InputDetector : MonoBehaviour {
 	public float tapThreshold = 50; //size before click becomes a swipe
 
 	private bool isTapped;
+	private bool isSwiped;
 	private Vector3 touchPos;
 
 	// Use this for initialization
@@ -15,25 +16,29 @@ public class InputDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (checkTap ()) {
-			isTapped = true;
-		} else {
-			isTapped = false;
-		}
+		checkTap ();
 	}
+	// Update isTapped and isSwiped if the touchpad is touched and released
+	private void checkTap() {
 
-	private bool checkTap() {
-		
+		isTapped = false;
+		isSwiped = false;
 		if (Input.GetMouseButtonDown (0)) {
 			touchPos = Input.mousePosition;
 		}
 		else if (Input.GetMouseButtonUp (0)) {
 			Vector3 delta = Input.mousePosition - touchPos;
-			if (delta.sqrMagnitude < tapThreshold * tapThreshold) {
-				return true;
+			if (delta.sqrMagnitude < tapThreshold * tapThreshold) { //release is within the threshold
+				isTapped = true;
+			}
+			else {
+				isSwiped = true;
 			}
 		}
-		return false;
+	}
+
+	public bool touchpadIsSwiped() {
+		return isSwiped;
 	}
 
 	public bool touchpadIsTapped() {
