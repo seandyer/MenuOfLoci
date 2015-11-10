@@ -5,13 +5,14 @@ public class MenuSelection : MonoBehaviour {
 	
 	public Camera cameraObject; //Add the camera object to this slot in the Inspector
 	public GameObject scriptObject; //Add the singleton script game object to this slot in the Inspector
-	
+	public MovieTexture movie;
 	private InputDetector inputDetector;
 	private bool moving = false;
 	private float speed = 8.0f;
 	private GameObject target;
 	// Use this for initialization
 	void Start () {
+
 		if (scriptObject != null) {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 		}
@@ -23,6 +24,10 @@ public class MenuSelection : MonoBehaviour {
 		if (inputDetector.touchpadIsTapped()) {
 			target = raycastForObject ();
 			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = target.name;
+			movie = target.GetComponent<Renderer>().material.mainTexture as MovieTexture;
+
+
+			movie.Play();
 			if (target != null && target.tag.Equals("Category")) {
 				moving = true;	
 			}
