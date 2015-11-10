@@ -5,52 +5,50 @@ public class MenuSelection : MonoBehaviour {
 	
 	public Camera cameraObject; //Add the camera object to this slot in the Inspector
 	public GameObject scriptObject; //Add the singleton script game object to this slot in the Inspector
-	
+
+	GameObject collisionObject;
+	bool moveCamera;
+	float speed = 1;
+
 	private InputDetector inputDetector;
-	private bool moving = false;
-	private float speed = 8.0f;
-	private GameObject target;
+	
 	// Use this for initialization
 	void Start () {
 		if (scriptObject != null) {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 		}
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (inputDetector.touchpadIsTapped()) {
-			target = raycastForObject ();
-			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = target.name;
-			if (target != null && target.tag.Equals("Category")) {
-				moving = true;	
+			collisionObject = raycastForObject ();
+			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
+			//distance = hitInfo.distance;
+			if(collisionObject.name.StartsWith("Planet")){
+				
+				//float step = speed * Time.deltaTime;
+				//GameObject.Find("Navigation").transform.position = Vector3.MoveTowards(GameObject.Find("Navigation").transform.position, hitInfo.collider.transform.position, step);
+				moveCamera = true;
+				Debug.Log("Hit Planet");
 			}
-		}
-		if (moving) {
-			checkForMove (target);	
-		}
-	}
-	private void checkForMove(GameObject destination) {
-		GameObject user = GameObject.Find ("Main Camera");
-		var heading = destination.transform.position - user.transform.position;
-		var distance = heading.magnitude;
-		if (distance <= 1.0f) {
-			moving = false;
 		} else {
-			heading = heading.normalized;
-			float move = speed * Time.deltaTime;
-			if (move > distance) {
-				move = distance;
-			}
-			user.transform.Translate (heading * move);
-
-
+			//distance = maxCrosshairDist;
 		}
 
+		if(moveCamera){
+			float step = speed * Time.deltaTime;
+			GameObject.Find("Navigation").transform.position = Vector3.MoveTowards(GameObject.Find("Navigation").transform.position, collisionObject.transform.position, step);
+			
+			if((GameObject.Find("Navigation").transform.position-collisionObject.transform.position).sqrMagnitude<=1){
+				moveCamera = false;
+			}
 
+		}
 	}
+	
 	private GameObject raycastForObject() {
+
 		RaycastHit hitInfo;
 		
 		//get head position and gaze direction
@@ -59,7 +57,7 @@ public class MenuSelection : MonoBehaviour {
 		
 		if (Physics.Raycast (headPosition, gazeDirection, out hitInfo)) {
 			GameObject raycastObject = hitInfo.transform.gameObject;
-			
+
 			return raycastObject;
 		}
 		return null;
