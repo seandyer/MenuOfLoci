@@ -8,7 +8,7 @@ public class MenuSelection : MonoBehaviour {
 
 	GameObject collisionObject;
 	bool moveCamera;
-	float speed = 1;
+	float speed = 2.5f;
 
 	private InputDetector inputDetector;
 	
