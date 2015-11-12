@@ -63,6 +63,9 @@ public class Crosshair : MonoBehaviour {
 		//transform.position = cameraObject.transform.position + cameraObject.transform.rotation * Vector3.forward * distance;
 		//transform.LookAt (cameraObject.transform.position);
 		//transform.Rotate (0.0f, 180.0f, 0.0f);
+		transform.position = cameraObject.transform.position + cameraObject.transform.rotation * Vector3.forward * distance;
+		transform.LookAt (cameraObject.transform.position);
+		transform.Rotate (0.0f, 180.0f, 0.0f);
 		
 	}
 }
