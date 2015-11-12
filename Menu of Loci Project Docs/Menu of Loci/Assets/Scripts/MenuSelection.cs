@@ -25,13 +25,16 @@ public class MenuSelection : MonoBehaviour {
 			collisionObject = raycastForObject ();
 			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
-			if(collisionObject.name.StartsWith("Planet")){
+			if(collisionObject.tag.Equals("Category")){
 				
 				//float step = speed * Time.deltaTime;
 				//GameObject.Find("Navigation").transform.position = Vector3.MoveTowards(GameObject.Find("Navigation").transform.position, hitInfo.collider.transform.position, step);
 				moveCamera = true;
 				Debug.Log("Hit Planet");
+			} else if (collisionObject.tag.Equals("Video")){
+				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
 			}
+
 		} else {
 			//distance = maxCrosshairDist;
 		}
