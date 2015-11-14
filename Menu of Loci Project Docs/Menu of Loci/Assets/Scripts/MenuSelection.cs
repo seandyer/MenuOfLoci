@@ -10,7 +10,9 @@ public class MenuSelection : MonoBehaviour {
 
 	private GameObject collisionObject;
 	private bool moveCamera;
-	private Vector3 startingLocation;
+	private float destinationOffset;
+	private Vector3 destinationPosition;
+	private Vector3 startingPosition;
 
 	private InputDetector inputDetector;
 	
@@ -20,21 +22,19 @@ public class MenuSelection : MonoBehaviour {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 		}
 		if (userObject != null) {
-			startingLocation = userObject.transform.position;
+			startingPosition = userObject.transform.position;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//User has tapped the touchpad
 		if (inputDetector.touchpadIsTapped()) {
 			collisionObject = raycastForObject ();
 			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
 			if(collisionObject.tag.Equals("Category")){
-				
-				//float step = speed * Time.deltaTime;
-				//GameObject.Find("Navigation").transform.position = Vector3.MoveTowards(GameObject.Find("Navigation").transform.position, hitInfo.collider.transform.position, step);
-				moveCamera = true;
+				moveUserToPosition(collisionObject.transform.position, 1);
 				Debug.Log("Hit Planet");
 			} else if (collisionObject.tag.Equals("Video")){
 				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
@@ -45,19 +45,25 @@ public class MenuSelection : MonoBehaviour {
 		}
 
 		if (inputDetector.backButtonIsClicked ()) {
-			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = "clicked";
+			moveUserToPosition(startingPosition, 0);
 		}
 
 		if(moveCamera){
 			float step = speed * Time.deltaTime;
-			userObject.transform.position = Vector3.MoveTowards(userObject.transform.position, collisionObject.transform.position, step);
+			userObject.transform.position = Vector3.MoveTowards(userObject.transform.position, destinationPosition, step);
 
 			//user has reached the object
-			if((userObject.transform.position-collisionObject.transform.position).sqrMagnitude <= 1){
+			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
 			}
 
 		}
+	}
+
+	private void moveUserToPosition(Vector3 destinationPosition, float destinationOffset) {
+		moveCamera = true;
+		this.destinationPosition = destinationPosition;
+		this.destinationOffset = destinationOffset;
 	}
 	
 	private GameObject raycastForObject() {
