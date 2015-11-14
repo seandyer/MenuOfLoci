@@ -20,6 +20,12 @@ public class InputDetector : MonoBehaviour {
 	void Update () {
 		checkTap ();
 	}
+
+	//True if the user has clicked the back button
+	public bool backButtonIsClicked() {
+		return Input.GetMouseButtonUp (1);
+	}
+
 	// Update isTapped and isSwiped if the touchpad is touched and released
 	private void checkTap() {
 

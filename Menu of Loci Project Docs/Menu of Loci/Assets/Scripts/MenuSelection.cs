@@ -6,10 +6,11 @@ public class MenuSelection : MonoBehaviour {
 	public GameObject userObject; //Add the user/navigation object to this slot in the Inspector
 	public Camera cameraObject; //Add the camera object to this slot in the Inspector
 	public GameObject scriptObject; //Add the singleton script game object to this slot in the Inspector
-	public float speed = 2.5f;
+	public float speed = 10f;
 
-	GameObject collisionObject;
-	bool moveCamera;
+	private GameObject collisionObject;
+	private bool moveCamera;
+	private Vector3 startingLocation;
 
 	private InputDetector inputDetector;
 	
@@ -17,6 +18,9 @@ public class MenuSelection : MonoBehaviour {
 	void Start () {
 		if (scriptObject != null) {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
+		}
+		if (userObject != null) {
+			startingLocation = userObject.transform.position;
 		}
 	}
 	
@@ -40,10 +44,15 @@ public class MenuSelection : MonoBehaviour {
 			//distance = maxCrosshairDist;
 		}
 
+		if (inputDetector.backButtonIsClicked ()) {
+			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = "clicked";
+		}
+
 		if(moveCamera){
 			float step = speed * Time.deltaTime;
 			userObject.transform.position = Vector3.MoveTowards(userObject.transform.position, collisionObject.transform.position, step);
-			
+
+			//user has reached the object
 			if((userObject.transform.position-collisionObject.transform.position).sqrMagnitude <= 1){
 				moveCamera = false;
 			}
