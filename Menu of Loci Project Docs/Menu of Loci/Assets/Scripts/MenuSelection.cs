@@ -2,13 +2,14 @@
 using System.Collections;
 
 public class MenuSelection : MonoBehaviour {
-	
+
+	public GameObject userObject; //Add the user/navigation object to this slot in the Inspector
 	public Camera cameraObject; //Add the camera object to this slot in the Inspector
 	public GameObject scriptObject; //Add the singleton script game object to this slot in the Inspector
+	public float speed = 2.5f;
 
 	GameObject collisionObject;
 	bool moveCamera;
-	float speed = 2.5f;
 
 	private InputDetector inputDetector;
 	
@@ -41,9 +42,9 @@ public class MenuSelection : MonoBehaviour {
 
 		if(moveCamera){
 			float step = speed * Time.deltaTime;
-			GameObject.Find("Navigation").transform.position = Vector3.MoveTowards(GameObject.Find("Navigation").transform.position, collisionObject.transform.position, step);
+			userObject.transform.position = Vector3.MoveTowards(userObject.transform.position, collisionObject.transform.position, step);
 			
-			if((GameObject.Find("Navigation").transform.position-collisionObject.transform.position).sqrMagnitude<=1){
+			if((userObject.transform.position-collisionObject.transform.position).sqrMagnitude <= 1){
 				moveCamera = false;
 			}
 
