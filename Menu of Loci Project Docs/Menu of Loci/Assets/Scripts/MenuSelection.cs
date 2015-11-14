@@ -34,7 +34,9 @@ public class MenuSelection : MonoBehaviour {
 			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
 			if(collisionObject.tag.Equals("Category")){
-				moveUserToPosition(collisionObject.transform.position, 1);
+				Vector3 desiredDestinationPosition = collisionObject.transform.position;
+				desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
+				moveUserToPosition(desiredDestinationPosition, 0.5f);
 				Debug.Log("Hit Planet");
 			} else if (collisionObject.tag.Equals("Video")){
 				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
