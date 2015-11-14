@@ -7,6 +7,8 @@ public class InputDetector : MonoBehaviour {
 
 	private bool isTapped;
 	private bool isSwiped;
+	private float swipeX;
+	private float swipeY;
 	private Vector3 touchPos;
 
 	// Use this for initialization
@@ -33,8 +35,18 @@ public class InputDetector : MonoBehaviour {
 			}
 			else {
 				isSwiped = true;
+				swipeX = Input.GetAxis ("Mouse X");
+				swipeY = Input.GetAxis ("Mouse Y");
 			}
 		}
+	}
+
+	public float getSwipeXValue() {
+		return swipeX;
+	}
+	
+	public float getSwipeYValue() {
+		return swipeY;
 	}
 
 	public bool touchpadIsSwiped() {
