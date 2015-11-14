@@ -21,6 +21,7 @@ public class MenuSelection : MonoBehaviour {
 		if (scriptObject != null) {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 		}
+		userObject = GameObject.Find ("Navigation");
 		if (userObject != null) {
 			startingPosition = userObject.transform.position;
 		}
