@@ -9,6 +9,7 @@ public class RingMenu : MonoBehaviour {
 
 	private bool thumbnailsCreated = false;
 	private GameObject[] thumbnailArray;
+	private string[] videoNames;
 	
 	// Use this for initialization
 	void Start () {
@@ -33,14 +34,16 @@ public class RingMenu : MonoBehaviour {
 		//thumbnailObject = Instantiate(Resources.Load("Thumbnail")) as GameObject;
 		int thumbnailNum = (int) (360 / displacementAngle);
 		thumbnailArray = new GameObject[thumbnailNum];
+		Texture2D thumbnailTexture = new Texture2D (500, 500);
 
 		for (int i = 0; i < thumbnailNum; i++) {
+			thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (i+1));
 			Vector3 position = userObject.transform.position;
 			position.z += 2;
 			GameObject spawnedObject = Instantiate(thumbnailObject, position, Quaternion.identity) as GameObject;
 			spawnedObject.transform.RotateAround(userObject.transform.position, Vector3.up, displacementAngle * i);
 			spawnedObject.transform.rotation.SetLookRotation(userObject.transform.position);
-
+			spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
 			thumbnailArray[i] = spawnedObject;
 		}
 		thumbnailsCreated = true;
