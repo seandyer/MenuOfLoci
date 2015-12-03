@@ -24,7 +24,6 @@ public class MenuSelection : MonoBehaviour {
 			inputDetector = (InputDetector)scriptObject.GetComponent ("InputDetector");
 			ringMenu = (RingMenu)scriptObject.GetComponent ("RingMenu");
 		}
-		userObject = GameObject.Find ("Navigation");
 		if (userObject != null) {
 			startingPosition = userObject.transform.position;
 		}
@@ -35,7 +34,7 @@ public class MenuSelection : MonoBehaviour {
 		//User has tapped the touchpad
 		if (inputDetector.touchpadIsTapped()) {
 			collisionObject = raycastForObject ();
-			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
+			//GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
 			if(collisionObject.tag.Equals("Category")){
 				Vector3 desiredDestinationPosition = collisionObject.transform.position;
@@ -64,7 +63,7 @@ public class MenuSelection : MonoBehaviour {
 			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
 				if (userIsOnPlanet) {
-					ringMenu.spawnThumbnails();
+					ringMenu.spawnThumbnails(20);
 				}
 			}
 			else {
