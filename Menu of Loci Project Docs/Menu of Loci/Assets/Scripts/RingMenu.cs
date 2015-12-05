@@ -4,6 +4,9 @@ using System.Collections;
 public class RingMenu : MonoBehaviour {
 
 	public float displacementAngle = 45;
+	public float startingDisplacement = -45;
+	public float distanceFromUser = 2;
+	public float levelHeight = 1;
 	public int maxThumbnailsPerLevel = 8;
 	public GameObject singletonScripts; //Attach the singleton script gameOBject to this slot in the Inspector
 	public GameObject thumbnailObject; //Attach the thumbnail object to this slot in the Inspector
@@ -57,10 +60,10 @@ public class RingMenu : MonoBehaviour {
 			for (int j = 0; j < thumbnailNumInLevel; j++) {
 				int thumbnailArrayNumber = i * maxThumbnailsPerLevel + j;
 				thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (thumbnailArrayNumber+1));
-				Vector3 position = userObject.transform.position + Vector3.up * i;
-				position.z += 2;
+				Vector3 position = userObject.transform.position + Vector3.up * i * levelHeight; //at the user position and up the number of levels
+				position.z += distanceFromUser;
 				GameObject spawnedObject = Instantiate(thumbnailObject, position, Quaternion.identity) as GameObject;
-				spawnedObject.transform.RotateAround(userObject.transform.position, Vector3.up, displacementAngle * j);
+				spawnedObject.transform.RotateAround(userObject.transform.position, Vector3.up, startingDisplacement + displacementAngle * j);
 				spawnedObject.transform.rotation.SetLookRotation(userObject.transform.position);
 				spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
 				thumbnailArray[thumbnailArrayNumber] = spawnedObject;
