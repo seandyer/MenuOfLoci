@@ -59,7 +59,7 @@ public class RingMenu : MonoBehaviour {
 		}
 	}
 	
-	public void spawnThumbnails(int thumbnailNum) {
+	public void spawnThumbnails(int thumbnailNum, Vector3 position) {
 		if (thumbnailsCreated) {
 			return;
 		}
@@ -80,18 +80,32 @@ public class RingMenu : MonoBehaviour {
 			}
 			for (int j = 0; j < thumbnailNumInLevel; j++) {
 				int thumbnailArrayNumber = i * maxThumbnailsPerLevel + j;
-				thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (thumbnailArrayNumber+1));
-				Vector3 position = userObject.transform.position + Vector3.up * i * levelHeight; //at the user position and up the number of levels
-				position.z += distanceFromUser;
-				GameObject spawnedObject = Instantiate(thumbnailObject, position, Quaternion.identity) as GameObject;
+				//thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (thumbnailArrayNumber+1));
+				Vector3 spawnPosition = position + Vector3.up * i * levelHeight; //at the user position and up the number of levels
+				spawnPosition.z += distanceFromUser;
+				GameObject spawnedObject = Instantiate(thumbnailObject, spawnPosition, Quaternion.identity) as GameObject;
 				spawnedObject.transform.RotateAround(userObject.transform.position, Vector3.up, startingDisplacement + displacementAngle * j);
 				spawnedObject.transform.rotation.SetLookRotation(userObject.transform.position);
-				spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
+				//spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
+				//temporary code
+				Thumbnail thumbnailScript = spawnedObject.GetComponent<Thumbnail>();
+				thumbnailScript.setImageFileName("Diving.JPG");
+				//thumbnailScript.setInvisible();
+				//spawnedObject.GetComponent<MeshRenderer>().enabled = false;
 				thumbnailArray[thumbnailArrayNumber] = spawnedObject;
+				//spawnedObject.SetActive(false);
 			}
 		}
 		thumbnailsCreated = true;
 	}
+	/*
+	public void makeThumbnailsVisible() {
+		foreach (GameObject thumbnail in thumbnailArray) {
+			Thumbnail thumbnailScript = thumbnail.GetComponent<Thumbnail>();
+			thumbnailScript.setVisible();
+		}
+	}
+	*/
 
 	public void despawnThumbnails() {
 		if (!thumbnailsCreated) {

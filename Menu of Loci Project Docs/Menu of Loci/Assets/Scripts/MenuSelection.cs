@@ -41,6 +41,7 @@ public class MenuSelection : MonoBehaviour {
 				desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
 				moveUserToPosition(desiredDestinationPosition, 0.5f);
 				userIsOnPlanet = true;
+				ringMenu.spawnThumbnails(20, desiredDestinationPosition); ///temporary code
 				Debug.Log("Hit Planet");
 			} else if (collisionObject.tag.Equals("Video")){
 				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
@@ -62,9 +63,11 @@ public class MenuSelection : MonoBehaviour {
 			//user has reached the object
 			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
+				/*
 				if (userIsOnPlanet) {
-					ringMenu.spawnThumbnails(20);
+					ringMenu.makeThumbnailsVisible();
 				}
+				*/
 			}
 			else {
 				float step = speed * Time.deltaTime;
