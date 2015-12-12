@@ -36,7 +36,7 @@ public class MenuSelection : MonoBehaviour {
 			collisionObject = raycastForObject ();
 			//GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
-			if(collisionObject.tag.Equals("Category")){
+			if(collisionObject != null && collisionObject.tag.Equals("Category")){
 				Vector3 desiredDestinationPosition = collisionObject.transform.position;
 				desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
 				moveUserToPosition(desiredDestinationPosition, 0.5f);

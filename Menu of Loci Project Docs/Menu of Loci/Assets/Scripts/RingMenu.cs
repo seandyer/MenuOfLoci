@@ -8,12 +8,21 @@ public class RingMenu : MonoBehaviour {
 	public float distanceFromUser = 2;
 	public float levelHeight = 1;
 	public int maxThumbnailsPerLevel = 8;
+	public float ySwipeThreshold = 1;
+	public float menuMovementAcceleration = 0.1f;
+	public float menuMovementMaxVelocity = 1;
 	public GameObject singletonScripts; //Attach the singleton script gameOBject to this slot in the Inspector
 	public GameObject thumbnailObject; //Attach the thumbnail object to this slot in the Inspector
 	public GameObject userObject; //Attach the user/navigation object to this slot in the Inspector
 
+	private bool menuMoving = false;
 	private bool thumbnailsCreated = false;
 	private GameObject[] thumbnailArray;
+	private float menuYOffset = 0; //the y distance the menu has moved down
+	private float curMenuVelocity = 0;
+	private int curThumbnailNum;
+	private int curNumOfLevels;
+	private int desiredMenuLevel = 0;
 	private InputDetector inputDetector;
 	private string[] videoNames;
 	
@@ -34,8 +43,16 @@ public class RingMenu : MonoBehaviour {
 			}
 			
 		}
-		if (inputDetector.touchpadIsSwiped ()) {
-			GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = inputDetector.getSwipeXValue().ToString();
+		if (thumbnailsCreated) {
+			if (inputDetector.touchpadIsSwiped ()) {
+				GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = inputDetector.getSwipeYValue ().ToString ();
+				if (inputDetector.getSwipeYValue () > 0) {
+					moveDesiredMenuLevelUp ();
+				} else {
+					moveDesiredMenuLevelDown ();
+				}
+			}
+			processMenuMovement ();
 		}
 	}
 	
@@ -48,10 +65,11 @@ public class RingMenu : MonoBehaviour {
 		thumbnailArray = new GameObject[thumbnailNum];
 		Texture2D thumbnailTexture = new Texture2D (500, 500);
 
-		int numberOfLevels = thumbnailNum / maxThumbnailsPerLevel + 1;
-		for (int i = 0; i < numberOfLevels; i++) { 
+		curThumbnailNum = thumbnailNum;
+		curNumOfLevels = thumbnailNum / maxThumbnailsPerLevel + 1;
+		for (int i = 0; i < curNumOfLevels; i++) { 
 			int thumbnailNumInLevel;
-			if (i + 1 == numberOfLevels) { //we are at the last level
+			if (i + 1 == curNumOfLevels) { //we are at the last level
 				thumbnailNumInLevel = thumbnailNum % maxThumbnailsPerLevel;
 			}
 			else {
@@ -81,5 +99,55 @@ public class RingMenu : MonoBehaviour {
 			Destroy(thumbnailArray[i]);
 		}
 		thumbnailsCreated = false;
+	}
+
+	private void moveDesiredMenuLevelDown() {
+		if (desiredMenuLevel < curNumOfLevels) {
+			desiredMenuLevel++;
+			menuMoving = true;
+		}
+	}
+
+	private void moveDesiredMenuLevelUp() {
+		if (desiredMenuLevel > 0) {
+			desiredMenuLevel--;
+			menuMoving = true;
+		}
+	}
+
+	private void processMenuMovement() {
+		if (menuMoving) {
+			float desiredYOffset = desiredMenuLevel * levelHeight;
+			float newMenuYOffset = menuYOffset;
+			if (menuYOffset != desiredYOffset) {
+				if (desiredYOffset > menuYOffset) { //menu still needs to move down
+					newMenuYOffset += curMenuVelocity; //increase offset
+					if (newMenuYOffset > desiredYOffset) { //if overshot
+						newMenuYOffset = desiredYOffset;
+					}
+				}
+				else { //menu needs to move up
+					newMenuYOffset -= curMenuVelocity;
+					if (newMenuYOffset < desiredYOffset) {
+						newMenuYOffset = desiredYOffset;
+					}
+				}
+				float movement = (newMenuYOffset - menuYOffset) * -1; //get the distance and negate it to move in the correct direction
+				//move all the menu thumbnails
+				foreach (GameObject thumbnail in thumbnailArray) {
+					thumbnail.transform.Translate(Vector3.up * movement);
+				}
+	         	menuYOffset = newMenuYOffset;
+				//apply acceleration
+				curMenuVelocity += menuMovementAcceleration * Time.deltaTime;
+				if (curMenuVelocity > menuMovementMaxVelocity) {
+					curMenuVelocity = menuMovementMaxVelocity;
+				}
+			}
+			else {
+				menuMoving = false;
+				curMenuVelocity = 0;
+			}
+		}
 	}
 }
