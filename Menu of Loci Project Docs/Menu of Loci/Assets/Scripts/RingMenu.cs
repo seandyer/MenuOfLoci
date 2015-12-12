@@ -89,8 +89,8 @@ public class RingMenu : MonoBehaviour {
 				//spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
 				//temporary code
 				Thumbnail thumbnailScript = spawnedObject.GetComponent<Thumbnail>();
+				thumbnailScript.setInvisible();
 				thumbnailScript.setImageFileName("Diving.JPG");
-				//thumbnailScript.setInvisible();
 				//spawnedObject.GetComponent<MeshRenderer>().enabled = false;
 				thumbnailArray[thumbnailArrayNumber] = spawnedObject;
 				//spawnedObject.SetActive(false);
@@ -98,14 +98,13 @@ public class RingMenu : MonoBehaviour {
 		}
 		thumbnailsCreated = true;
 	}
-	/*
+
 	public void makeThumbnailsVisible() {
 		foreach (GameObject thumbnail in thumbnailArray) {
 			Thumbnail thumbnailScript = thumbnail.GetComponent<Thumbnail>();
 			thumbnailScript.setVisible();
 		}
 	}
-	*/
 
 	public void despawnThumbnails() {
 		if (!thumbnailsCreated) {

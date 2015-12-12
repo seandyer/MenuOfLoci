@@ -63,11 +63,9 @@ public class MenuSelection : MonoBehaviour {
 			//user has reached the object
 			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
-				/*
 				if (userIsOnPlanet) {
 					ringMenu.makeThumbnailsVisible();
 				}
-				*/
 			}
 			else {
 				float step = speed * Time.deltaTime;

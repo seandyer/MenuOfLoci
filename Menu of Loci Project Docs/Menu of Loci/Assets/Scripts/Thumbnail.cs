@@ -3,29 +3,33 @@ using System.Collections;
 
 public class Thumbnail : MonoBehaviour {
 
-	//private Renderer meshRenderer;
+	private Renderer rend;
 	private string thumbnailFileName;
 	private string fileName;
 	private Texture2D tex;
 	// Use this for initialization
-	void Start () {
-		//meshRenderer = this.gameObject.GetComponent<Renderer> ();
+
+	void Awake() {
+		rend = this.GetComponent<Renderer> ();
+		rend.enabled = true;
 	}
-	
+
+	void Start () {
+		
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
 	}
-
-	/*
+	
 	public void setInvisible() {
-		meshRenderer.enabled = false;
+		rend.enabled = false;
 	}
 
 	public void setVisible() {
-		meshRenderer.enabled = true;
+		rend.enabled = true;
 	}
-		*/
 
 	public void setImageFileName(string fileName) {
 		thumbnailFileName = fileName;
@@ -40,6 +44,6 @@ public class Thumbnail : MonoBehaviour {
 		tex = (Texture2D)wwwTexture.texture;
 
 
-		this.GetComponent<Renderer>().material.mainTexture = tex;
+		rend.material.mainTexture = tex;
 	}
 }
