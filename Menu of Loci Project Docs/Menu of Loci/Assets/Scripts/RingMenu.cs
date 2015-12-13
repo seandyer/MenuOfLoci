@@ -90,13 +90,12 @@ public class RingMenu : MonoBehaviour {
 			for (int j = 0; j < thumbnailNumInLevel; j++) {
 				int thumbnailArrayNumber = i * maxThumbnailsPerLevel + j;
 				//thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (thumbnailArrayNumber+1));
+				Vector3 userPosition = position;
 				Vector3 spawnPosition = position + Vector3.up * i * levelHeight; //at the user position and up the number of levels
 				spawnPosition.z += distanceFromUser;
 				GameObject spawnedObject = Instantiate(thumbnailObject, spawnPosition, Quaternion.identity) as GameObject;
-				spawnedObject.transform.RotateAround(userObject.transform.position, Vector3.up, startingDisplacement + displacementAngle * j);
-				spawnedObject.transform.rotation.SetLookRotation(userObject.transform.position);
-				//spawnedObject.GetComponent<Renderer>().material.mainTexture = thumbnailTexture;
-				//temporary code
+				spawnedObject.transform.RotateAround(userPosition, Vector3.up, startingDisplacement + displacementAngle * j);
+				spawnedObject.transform.rotation.SetLookRotation(userPosition);
 				Thumbnail thumbnailScript = spawnedObject.GetComponent<Thumbnail>();
 				thumbnailScript.setInvisible();
 				thumbnailScript.setImageFileName(thumbnailFileNames[j]);
