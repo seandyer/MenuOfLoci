@@ -18,8 +18,8 @@ public class InputDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		checkTap ();
 		checkSwipe ();
+		checkTap ();
 	}
 
 	//True if the user has clicked the back button
@@ -43,6 +43,10 @@ public class InputDetector : MonoBehaviour {
 	}
 
 	private void checkSwipe() {
+		if (Input.GetMouseButtonDown (0)) {
+			isSwiped = false;
+			return;
+		}
 		swipeX = Input.GetAxis ("Mouse X");
 		swipeY = Input.GetAxis ("Mouse Y");
 		if (swipeX != 0 || swipeY != 0) {
