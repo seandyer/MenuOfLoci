@@ -17,6 +17,7 @@ public class RingMenu : MonoBehaviour {
 
 	private bool menuMoving = false;
 	private bool thumbnailsCreated = false;
+	private bool thumbnailsGenerating = false;
 	private GameObject[] thumbnailArray;
 	private float menuYOffset = 0; //the y distance the menu has moved down
 	private float curMenuVelocity = 0;
@@ -65,6 +66,7 @@ public class RingMenu : MonoBehaviour {
 		if (thumbnailsCreated) {
 			yield break;
 		}
+		thumbnailsGenerating = true;
 		//thumbnailObject = Instantiate(Resources.Load("Thumbnail")) as GameObject;
 		//thumbnailNum = (int) (360 / displacementAngle);
 		yield return StartCoroutine(webLoader.loader(category));
@@ -106,9 +108,13 @@ public class RingMenu : MonoBehaviour {
 			}
 		}
 		thumbnailsCreated = true;
+		thumbnailsGenerating = false;
 	}
 
-	public void makeThumbnailsVisible() {
+	public IEnumerator makeThumbnailsVisible() {
+		while (thumbnailsGenerating) {
+			yield return new WaitForSeconds (0.1f);
+		}
 		foreach (GameObject thumbnail in thumbnailArray) {
 			Thumbnail thumbnailScript = thumbnail.GetComponent<Thumbnail>();
 			thumbnailScript.setVisible();

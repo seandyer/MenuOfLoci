@@ -66,7 +66,7 @@ public class MenuSelection : MonoBehaviour {
 			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
 				if (userIsOnPlanet) {
-					ringMenu.makeThumbnailsVisible();
+					StartCoroutine(ringMenu.makeThumbnailsVisible());
 				}
 			}
 			else {
