@@ -1,0 +1,189 @@
+fileFormatVersion: 2
+guid: fcfcac89678230142a604b3364c29967
+timeCreated: 1449959265
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: group
+    100002: group1
+    100004: group10
+    100006: group11
+    100008: group12
+    100010: group13
+    100012: group14
+    100014: group15
+    100016: group16
+    100018: group17
+    100020: group18
+    100022: group19
+    100024: group19_pasted__group15_pasted__pasted__group1_pasted__group17_pasted__group18_pasted__pasted__pTorus1
+    100026: group2
+    100028: group20
+    100030: group21
+    100032: group22
+    100034: group23
+    100036: group24
+    100038: group3
+    100040: group4
+    100042: group5
+    100044: group6
+    100046: group7
+    100048: group8
+    100050: group9
+    100052: pasted__group1
+    100054: pasted__group1 1
+    100056: pasted__group1 2
+    100058: pasted__group1 3
+    100060: pasted__group1 4
+    100062: pasted__group15
+    100064: pasted__group15 1
+    100066: pasted__group15 2
+    100068: pasted__group17
+    100070: pasted__group17 1
+    100072: pasted__group17 2
+    100074: pasted__group18
+    100076: pasted__group18 1
+    100078: pasted__group18 2
+    100080: pasted__pasted__group1
+    100082: pasted__pasted__group1 1
+    100084: pasted__pasted__group1 2
+    100086: pasted__pasted__pSphere1
+    100088: pasted__pasted__pSphere1 1
+    100090: pasted__pasted__pSphere1 2
+    100092: pasted__pasted__pTorus1
+    100094: pasted__pasted__pTorus1 1
+    100096: pasted__pasted__pTorus1 2
+    100098: pSphere1
+    100100: //RootNode
+    100102: transform1
+    100104: transform2
+    100106: transform3
+    100108: transform4
+    100110: transform5
+    100112: transform6
+    100114: transform7
+    400000: group
+    400002: group1
+    400004: group10
+    400006: group11
+    400008: group12
+    400010: group13
+    400012: group14
+    400014: group15
+    400016: group16
+    400018: group17
+    400020: group18
+    400022: group19
+    400024: group19_pasted__group15_pasted__pasted__group1_pasted__group17_pasted__group18_pasted__pasted__pTorus1
+    400026: group2
+    400028: group20
+    400030: group21
+    400032: group22
+    400034: group23
+    400036: group24
+    400038: group3
+    400040: group4
+    400042: group5
+    400044: group6
+    400046: group7
+    400048: group8
+    400050: group9
+    400052: pasted__group1
+    400054: pasted__group1 1
+    400056: pasted__group1 2
+    400058: pasted__group1 3
+    400060: pasted__group1 4
+    400062: pasted__group15
+    400064: pasted__group15 1
+    400066: pasted__group15 2
+    400068: pasted__group17
+    400070: pasted__group17 1
+    400072: pasted__group17 2
+    400074: pasted__group18
+    400076: pasted__group18 1
+    400078: pasted__group18 2
+    400080: pasted__pasted__group1
+    400082: pasted__pasted__group1 1
+    400084: pasted__pasted__group1 2
+    400086: pasted__pasted__pSphere1
+    400088: pasted__pasted__pSphere1 1
+    400090: pasted__pasted__pSphere1 2
+    400092: pasted__pasted__pTorus1
+    400094: pasted__pasted__pTorus1 1
+    400096: pasted__pasted__pTorus1 2
+    400098: pSphere1
+    400100: //RootNode
+    400102: transform1
+    400104: transform2
+    400106: transform3
+    400108: transform4
+    400110: transform5
+    400112: transform6
+    400114: transform7
+    2300000: group19_pasted__group15_pasted__pasted__group1_pasted__group17_pasted__group18_pasted__pasted__pTorus1
+    3300000: group19_pasted__group15_pasted__pasted__group1_pasted__group17_pasted__group18_pasted__pasted__pTorus1
+    4300000: group19_pasted__group15_pasted__pasted__group1_pasted__group17_pasted__group18_pasted__pasted__pTorus1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
