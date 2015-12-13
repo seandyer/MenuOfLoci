@@ -38,8 +38,9 @@ public class MenuSelection : MonoBehaviour {
 			//distance = hitInfo.distance;
 			if (collisionObject != null) {
 				if(collisionObject.tag.Equals("Category")){
+					ringMenu.despawnThumbnails(); //pre-emptively despawn
 					Vector3 desiredDestinationPosition = collisionObject.transform.position;
-					desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
+					desiredDestinationPosition.y += collisionObject.GetComponent<Collider>().bounds.size.y + 0.5f; //offset the y so we arrive at the top of the planet
 					moveUserToPosition(desiredDestinationPosition, 0.5f);
 					userIsOnPlanet = true;
 					StartCoroutine(ringMenu.spawnThumbnails(collisionObject.name, desiredDestinationPosition)); ///temporary code
