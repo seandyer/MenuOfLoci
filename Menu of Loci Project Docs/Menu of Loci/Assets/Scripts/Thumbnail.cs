@@ -5,7 +5,7 @@ public class Thumbnail : MonoBehaviour {
 
 	private Renderer rend;
 	private string thumbnailFileName;
-	private string fileName;
+	private string videoFileName;
 	private Texture2D tex;
 	// Use this for initialization
 
@@ -22,7 +22,11 @@ public class Thumbnail : MonoBehaviour {
 	void Update () {
 	
 	}
-	
+
+	public string getVideoFileName() {
+		return videoFileName;
+	}
+
 	public void setInvisible() {
 		rend.enabled = false;
 	}
@@ -37,13 +41,16 @@ public class Thumbnail : MonoBehaviour {
 	}
 
 	private IEnumerator setTexture(string fileName) {
-		WWW wwwTexture = new WWW ("http://ec2-52-26-4-14.us-west-2.compute.amazonaws.com/thumbnails/" + fileName);
+		WWW wwwTexture = new WWW (fileName);
 		yield return wwwTexture;
 
 		tex = new Texture2D(500,500);
 		tex = (Texture2D)wwwTexture.texture;
 
-
 		rend.material.mainTexture = tex;
+	}
+
+	public void setVideoFileName(string fileName) {
+		this.videoFileName = fileName;
 	}
 }

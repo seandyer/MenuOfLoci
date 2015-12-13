@@ -25,11 +25,13 @@ public class RingMenu : MonoBehaviour {
 	private int desiredMenuLevel = 0;
 	private InputDetector inputDetector;
 	private string[] videoNames;
-	
+	private WebLoader webLoader;
+
 	// Use this for initialization
 	void Start () {
 		if (singletonScripts != null) {
 			inputDetector = (InputDetector) singletonScripts.GetComponent("InputDetector");
+			webLoader = singletonScripts.GetComponent<WebLoader>();
 		}
 	}
 	
@@ -59,12 +61,18 @@ public class RingMenu : MonoBehaviour {
 		}
 	}
 	
-	public void spawnThumbnails(int thumbnailNum, Vector3 position) {
+	public IEnumerator spawnThumbnails(string category, Vector3 position) {
 		if (thumbnailsCreated) {
-			return;
+			yield break;
 		}
 		//thumbnailObject = Instantiate(Resources.Load("Thumbnail")) as GameObject;
 		//thumbnailNum = (int) (360 / displacementAngle);
+		yield return StartCoroutine(webLoader.loader(category));
+		//StartCoroutine(webLoader
+		int thumbnailNum = webLoader.getNumberOfItemsInCategory();
+		string[] thumbnailFileNames = webLoader.getThumbnailURLS ();
+		string[] videoFileNames = webLoader.getVideoURLS ();
+
 		thumbnailArray = new GameObject[thumbnailNum];
 		Texture2D thumbnailTexture = new Texture2D (500, 500);
 
@@ -78,6 +86,7 @@ public class RingMenu : MonoBehaviour {
 			else {
 				thumbnailNumInLevel = maxThumbnailsPerLevel;
 			}
+			//WebLoader webLoader = new WebLoader();
 			for (int j = 0; j < thumbnailNumInLevel; j++) {
 				int thumbnailArrayNumber = i * maxThumbnailsPerLevel + j;
 				//thumbnailTexture = (Texture2D) Resources.Load("Thumbnails/" + (thumbnailArrayNumber+1));
@@ -90,7 +99,8 @@ public class RingMenu : MonoBehaviour {
 				//temporary code
 				Thumbnail thumbnailScript = spawnedObject.GetComponent<Thumbnail>();
 				thumbnailScript.setInvisible();
-				thumbnailScript.setImageFileName("Diving.JPG");
+				thumbnailScript.setImageFileName(thumbnailFileNames[j]);
+				thumbnailScript.setVideoFileName(videoFileNames[j]);
 				//spawnedObject.GetComponent<MeshRenderer>().enabled = false;
 				thumbnailArray[thumbnailArrayNumber] = spawnedObject;
 				//spawnedObject.SetActive(false);

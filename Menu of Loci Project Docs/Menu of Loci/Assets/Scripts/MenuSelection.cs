@@ -41,10 +41,10 @@ public class MenuSelection : MonoBehaviour {
 				desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
 				moveUserToPosition(desiredDestinationPosition, 0.5f);
 				userIsOnPlanet = true;
-				ringMenu.spawnThumbnails(20, desiredDestinationPosition); ///temporary code
+				StartCoroutine(ringMenu.spawnThumbnails("Marriott", desiredDestinationPosition)); ///temporary code
 				Debug.Log("Hit Planet");
 			} else if (collisionObject.tag.Equals("Video")){
-				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
+				Handheld.PlayFullScreenMovie(collisionObject.GetComponent<Thumbnail>().getVideoFileName(), Color.black, FullScreenMovieControlMode.CancelOnInput);
 			}
 
 		} else {
