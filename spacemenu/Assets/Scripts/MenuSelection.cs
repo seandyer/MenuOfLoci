@@ -47,12 +47,12 @@ public class MenuSelection : MonoBehaviour {
 					Debug.Log("Hit Planet");
 				} else if (collisionObject.tag.Equals("Video")){
 					Handheld.PlayFullScreenMovie(collisionObject.GetComponent<Thumbnail>().getVideoFileName(), Color.black, FullScreenMovieControlMode.CancelOnInput);
-				}else if (collisionObject.tag.Equals("menuPlanet")){
-				Vector3 desiredDestinationPosition = collisionObject.transform.position;
-				desiredDestinationPosition.y += 3; //offset the y so we arrive at the top of the planet
-				moveUserToPosition(desiredDestinationPosition, 0.5f);
-				userIsOnPlanet = false;
-				Debug.Log("Hit Planet");
+				} else if (collisionObject.tag.Equals("menuPlanet")){
+					Vector3 desiredDestinationPosition = collisionObject.transform.position;
+					desiredDestinationPosition.y += 3; //offset the y so we arrive at the top of the planet
+					moveUserToPosition(desiredDestinationPosition, 0.5f);
+					userIsOnPlanet = false;
+					Debug.Log("Hit Planet");
 				}
 			}
 
