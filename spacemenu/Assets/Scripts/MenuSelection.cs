@@ -36,14 +36,24 @@ public class MenuSelection : MonoBehaviour {
 			collisionObject = raycastForObject ();
 			//GameObject.Find ("DebugText").GetComponent<TextMesh> ().text = collisionObject.name;
 			//distance = hitInfo.distance;
-			if(collisionObject.tag.Equals("Category")){
+			if (collisionObject != null) {
+				if(collisionObject.tag.Equals("Category")){
+					ringMenu.despawnThumbnails(); //pre-emptively despawn
+					Vector3 desiredDestinationPosition = collisionObject.transform.position;
+					desiredDestinationPosition.y += collisionObject.GetComponent<Collider>().bounds.size.y + 0.5f; //offset the y so we arrive at the top of the planet
+					moveUserToPosition(desiredDestinationPosition, 0.5f);
+					userIsOnPlanet = true;
+					StartCoroutine(ringMenu.spawnThumbnails(collisionObject.name, desiredDestinationPosition)); ///temporary code
+					Debug.Log("Hit Planet");
+				} else if (collisionObject.tag.Equals("Video")){
+					Handheld.PlayFullScreenMovie(collisionObject.GetComponent<Thumbnail>().getVideoFileName(), Color.black, FullScreenMovieControlMode.CancelOnInput);
+				}else if (collisionObject.tag.Equals("menuPlanet")){
 				Vector3 desiredDestinationPosition = collisionObject.transform.position;
-				desiredDestinationPosition.y += 1; //offset the y so we arrive at the top of the planet
+				desiredDestinationPosition.y += 3; //offset the y so we arrive at the top of the planet
 				moveUserToPosition(desiredDestinationPosition, 0.5f);
-				userIsOnPlanet = true;
+				userIsOnPlanet = false;
 				Debug.Log("Hit Planet");
-			} else if (collisionObject.tag.Equals("Video")){
-				Handheld.PlayFullScreenMovie("Uncharted.mp4", Color.black, FullScreenMovieControlMode.CancelOnInput);
+				}
 			}
 
 		} else {
@@ -63,7 +73,7 @@ public class MenuSelection : MonoBehaviour {
 			if((userObject.transform.position-destinationPosition).sqrMagnitude <= destinationOffset){
 				moveCamera = false;
 				if (userIsOnPlanet) {
-					ringMenu.spawnThumbnails(20);
+					StartCoroutine(ringMenu.makeThumbnailsVisible());
 				}
 			}
 			else {

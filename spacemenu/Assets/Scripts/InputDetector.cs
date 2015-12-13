@@ -18,6 +18,7 @@ public class InputDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		checkSwipe ();
 		checkTap ();
 	}
 
@@ -30,7 +31,6 @@ public class InputDetector : MonoBehaviour {
 	private void checkTap() {
 
 		isTapped = false;
-		isSwiped = false;
 		if (Input.GetMouseButtonDown (0)) {
 			touchPos = Input.mousePosition;
 		}
@@ -39,11 +39,20 @@ public class InputDetector : MonoBehaviour {
 			if (delta.sqrMagnitude < tapThreshold * tapThreshold) { //release is within the threshold
 				isTapped = true;
 			}
-			else {
-				isSwiped = true;
-				swipeX = Input.GetAxis ("Mouse X");
-				swipeY = Input.GetAxis ("Mouse Y");
-			}
+		}
+	}
+
+	private void checkSwipe() {
+		if (Input.GetMouseButtonDown (0)) {
+			isSwiped = false;
+			return;
+		}
+		swipeX = Input.GetAxis ("Mouse X");
+		swipeY = Input.GetAxis ("Mouse Y");
+		if (swipeX != 0 || swipeY != 0) {
+			isSwiped = true;
+		} else {
+			isSwiped = false;
 		}
 	}
 
