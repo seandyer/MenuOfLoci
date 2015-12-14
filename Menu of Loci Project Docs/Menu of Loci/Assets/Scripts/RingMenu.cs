@@ -100,12 +100,22 @@ public class RingMenu : MonoBehaviour {
 				spawnedObject.transform.rotation.SetLookRotation(userPosition);
 				Thumbnail thumbnailScript = spawnedObject.GetComponent<Thumbnail>();
 				thumbnailScript.setInvisible();
-				thumbnailScript.setImageFileName(thumbnailFileNames[j]);
-				thumbnailScript.setVideoFileName(videoFileNames[j]);
+				if (thumbnailNum < 40) {
+					thumbnailScript.setImageFileName(thumbnailFileNames[thumbnailArrayNumber]);
+				}
+				else { //thumbnail array is oversized
+					thumbnailScript.setImageFileNameWithoutLoading(thumbnailFileNames[thumbnailArrayNumber]);
+				}
+				thumbnailScript.setVideoFileName(videoFileNames[thumbnailArrayNumber]);
 				//spawnedObject.GetComponent<MeshRenderer>().enabled = false;
 				thumbnailArray[thumbnailArrayNumber] = spawnedObject;
 				//spawnedObject.SetActive(false);
 			}
+		}
+		if (thumbnailNum >= 40) { //thumbnail array is oversized
+			LargeThumbnailNumHandler handler = singletonScripts.GetComponent<LargeThumbnailNumHandler> ();
+			handler.setThumbnailObjectArray (thumbnailArray);
+			handler.startLoading ();
 		}
 		thumbnailsCreated = true;
 		thumbnailsGenerating = false;

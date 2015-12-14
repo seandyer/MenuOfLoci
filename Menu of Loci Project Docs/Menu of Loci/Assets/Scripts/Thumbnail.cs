@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Thumbnail : MonoBehaviour {
 
+	private bool textureLoaded = false;
 	private Renderer rend;
 	private string thumbnailFileName;
 	private string videoFileName;
@@ -27,12 +28,24 @@ public class Thumbnail : MonoBehaviour {
 		return videoFileName;
 	}
 
+	public bool isTextureLoaded() {
+		return textureLoaded;
+	}
+
+	public void loadTexture() {
+		StartCoroutine (setTexture (thumbnailFileName));
+	}
+
 	public void setInvisible() {
 		rend.enabled = false;
 	}
 
 	public void setVisible() {
 		rend.enabled = true;
+	}
+
+	public void setImageFileNameWithoutLoading(string fileName) {
+		thumbnailFileName = fileName;
 	}
 
 	public void setImageFileName(string fileName) {
@@ -48,6 +61,7 @@ public class Thumbnail : MonoBehaviour {
 		tex = (Texture2D)wwwTexture.texture;
 
 		rend.material.mainTexture = tex;
+		textureLoaded = true;
 	}
 
 	public void setVideoFileName(string fileName) {
