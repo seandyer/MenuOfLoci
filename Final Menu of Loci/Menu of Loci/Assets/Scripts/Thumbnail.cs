@@ -46,7 +46,6 @@ public class Thumbnail : MonoBehaviour {
 
 		tex = new Texture2D(500,500);
 		tex = (Texture2D)wwwTexture.texture;
-
 		rend.material.mainTexture = tex;
 	}
 
